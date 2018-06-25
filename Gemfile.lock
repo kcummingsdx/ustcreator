@@ -13,6 +13,11 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.1)
       tilt (~> 2.0)
+    sinatra-bootstrap (0.6.1)
+      sinatra (>= 1.0)
+      sinatra-outputbuffer
+    sinatra-outputbuffer (0.1.0)
+      sinatra (>= 1.0.a)
     tilt (2.0.8)
 
 PLATFORMS
@@ -21,6 +26,7 @@ PLATFORMS
 DEPENDENCIES
   mongo
   sinatra
+  sinatra-bootstrap (~> 0.6.1)
 
 BUNDLED WITH
    1.16.1

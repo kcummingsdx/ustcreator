@@ -2,10 +2,13 @@ require 'rubygems'
 require 'sinatra'
 require 'mongo'
 require 'json/ext' # required for .to_json
+require 'securerandom'
+
+Tilt.register Tilt::ERBTemplate, 'html.erb'
 
 configure do
-  db = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'test')  
-  set :mongo_db, db[:test]
+  db = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'pixel')  
+  set :mongo_db, db[:pixel]
 end
 
 get '/collections/?' do
@@ -46,4 +49,30 @@ get '/document/:id/?' do
   content_type :json
   document_by_id(params[:id])
 end
+
+get '/newurldata/:url' do
+  content_type :json
+  urlParams = params
+  pixelId = SecureRandom.hex
+  urlHash = Hash.new
+  urlHash[pixelId] = urlParams
+  urlHash.to_json
+  # result = db.insert_one urlHash.to_json
+end
+
+post '/newpixel/?' do
+  content_type :json
+  db = settings.mongo_db
+  urlParams = params[:url]
+  pixelId = SecureRandom.hex
+  urlHash = Hash.new
+  urlHash[pixelId] = urlParams
+  result = db.insert_one urlHash
+  db.find(:_id => result.inserted_id).to_a.first.to_json
+end
+
+get '/pixelgenerator' do 
+  erb :pixel_generator
+end
+
 

@@ -5,8 +5,8 @@ require 'json/ext' # required for .to_json
 
 
 configure do
-  db = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'test')
-  set :mongo_db, db[:test]
+  db = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'asi')
+  set :mongo_db, db[:asi]
 end
 
 def insert_to_db
@@ -17,4 +17,5 @@ def insert_to_db
 	result = db.insert_many data_hash
 end
 
-# insert_to_db
+# run this method to insert new documents into db
+## insert_to_db
